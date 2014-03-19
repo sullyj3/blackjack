@@ -2,7 +2,14 @@ cards=list(zip((["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']),(
 print(type(cards))
 print(cards)
 
-deck=[card[0] for card in cards]
+#initialise deck. is this the best data structure?
+hearts=[card[0] for card in cards]
+clubs=[card[0] for card in cards]
+diamonds=[card[0] for card in cards]
+spades=[card[0] for card in cards]
+
+deck={"hearts":hearts,"clubs":clubs,"diamonds":diamonds,"spades":spades}
+
 print()
 print(type(deck))
 print(deck)
