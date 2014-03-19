@@ -10,13 +10,15 @@ diamonds=[card[0] for card in cards]
 spades=[card[0] for card in cards]
 
 deck={"hearts":hearts,"clubs":clubs,"diamonds":diamonds,"spades":spades}
+temp_deck=deck
+shuffled_deck=[]
 
 print()
 print(type(deck))
 print(deck)
 
 #initialise players
-
+#maybe should use classes instead?
 players=[]
 def get_players():
     num_players=int(input("Input number of players: "))
@@ -26,6 +28,16 @@ def get_players():
 
 get_players()
 #print(players)
+
+def shuffle_deck():
+    pass
+    #test all cards are present.
+        #if not, reinitialise deck
+    #while len shuffled_deck!=52
+        #append random card from temp deck
+        #delete that card from temp deck
+    #temp_deck should end up empty, shuffled_deck should end up full
+
 
 def initial_deal():
     pass
