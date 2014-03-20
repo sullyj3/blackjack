@@ -1,27 +1,20 @@
-#initialise deck. is this the best data structure?
 
-def init_deck():
+
+def init_deck():  #initialise deck. is this the best data structure?
     cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
     cardvals=[(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]
     suits=['hearts','clubs','diamonds','spades']
-    cards=[]
+    deck=[]
     for suit in suits:
         for i in range(13):
-            cards.append((cardnames[i],cardvals[i],suit))
-    return cards
+            deck.append((cardnames[i],cardvals[i],suit))
+    return deck
 
-#initialise players
-#maybe should use classes instead?
-#players=[]
-
-def get_players(): #works
+def get_players(): #maybe should use classes instead?
     num_players=int(input("Input number of players: "))
     for i in range(num_players):
         add_player=input("Input player "+str(i+1)+" name: ")
         players.append(add_player)
-
-#get_players()
-#print(players)
 
 def shuffle_deck():
     pass
