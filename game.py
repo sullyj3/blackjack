@@ -1,29 +1,14 @@
 #initialise deck. is this the best data structure?
-cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
-cardvals=[(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]
-suits=['hearts','clubs','diamonds','spades']
-#cards=list(zip(cardnames,cardvals)) #generates list of 2-tuples with form ("card-name",value)
-cards=[]
-for suit in suits:
-    for i in range(13):
-        cards.append((cardnames[i],cardvals[i],suit))
-for card in cards:
-    print(card)
 
-#hearts,clubs,diamonds,spades={},{},{},{}
-
-#for suit in suits: #populates each suit with 1 of each type of card
-#    for card in cards:
-#        suit[card[0]]=card[1]
-
-#deck={"hearts":hearts,"clubs":clubs,"diamonds":diamonds,"spades":spades}
-#temp_deck=deck
-#shuffled_deck=[]
-
-#print()
-#print(type(deck))
-#for suit in deck:
-#    print(suit+str(deck[suit]))
+def init_deck():
+    cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
+    cardvals=[(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]
+    suits=['hearts','clubs','diamonds','spades']
+    cards=[]
+    for suit in suits:
+        for i in range(13):
+            cards.append((cardnames[i],cardvals[i],suit))
+    return cards
 
 #initialise players
 #maybe should use classes instead?
