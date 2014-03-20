@@ -1,6 +1,8 @@
 #initialise deck. is this the best data structure?
+cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
+cardvals=[(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]
+cards=list(zip(cardnames,cardvals)) #generates list of 2-tuples with form ("card-name",value)
 
-cards=list(zip((["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']),([(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]))) #generates list of 2-tuples with form ("card-name",value)
 #print(cards)
 
 hearts,clubs,diamonds,spades={},{},{},{}
@@ -21,13 +23,14 @@ for suit in deck:
 #initialise players
 #maybe should use classes instead?
 players=[]
-def get_players():
+
+def get_players(): #works
     num_players=int(input("Input number of players: "))
     for i in range(num_players):
         add_player=input("Input player "+str(i+1)+" name: ")
         players.append(add_player)
 
-get_players()
+#get_players()
 #print(players)
 
 def shuffle_deck():
