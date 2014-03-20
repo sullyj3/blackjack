@@ -1,0 +1,4 @@
+how to implement game flow?
+
+have a present deck state list.
+each player has an associated list which represents their hand

@@ -19,11 +19,11 @@ def get_players(): #maybe should use classes instead?
         players.append(add_player)
     return players
 
-def shuffle_deck():
-    temp_deck=init_deck()
+def shuffle_deck(deck):
+    temp_deck=deck
     shuffled_deck=[]
 
-    while len(shuffled_deck)!=52:
+    while len(temp_deck)>0:
         random_index=randrange(len(temp_deck))
         shuffled_deck.append(temp_deck[random_index])
         del temp_deck[random_index]
@@ -32,3 +32,5 @@ def shuffle_deck():
 
 def initial_deal():
     pass
+
+print(shuffle_deck(init_deck()))
