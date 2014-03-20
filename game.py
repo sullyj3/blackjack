@@ -1,3 +1,5 @@
+from random import randrange
+
 def init_deck():  #initialise deck. returns list of 3-tuples of form: (name,face value,suit)
     #is this the best data structure?
     cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
@@ -18,13 +20,15 @@ def get_players(): #maybe should use classes instead?
     return players
 
 def shuffle_deck():
-    pass
-    #test all cards are present.
-        #if not, reinitialise deck
-    #while len shuffled_deck!=52
-        #append random card from temp deck
-        #delete that card from temp deck
-    #temp_deck should end up empty, shuffled_deck should end up full
+    temp_deck=init_deck()
+    shuffled_deck=[]
+
+    while len(shuffled_deck)!=52:
+        random_index=randrange(len(temp_deck))
+        shuffled_deck.append(temp_deck[random_index])
+        del temp_deck[random_index]
+
+    return shuffled_deck
 
 def initial_deal():
     pass
