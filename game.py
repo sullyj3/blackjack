@@ -33,4 +33,5 @@ def shuffle_deck(deck):
 def initial_deal():
     pass
 
-print(shuffle_deck(init_deck()))
+main_deck_state=shuffle_deck(init_deck())
+print(main_deck_state)
