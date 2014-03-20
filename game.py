@@ -3,18 +3,9 @@
 cards=list(zip((["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']),([(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]))) #generates list of 2-tuples with form ("card-name",value)
 #print(cards)
 
-#maybe use dicts for suits?
-'''hearts=[card[0] for card in cards]
-clubs=[card[0] for card in cards]
-diamonds=[card[0] for card in cards]
-spades=[card[0] for card in cards]
-'''
-hearts={}
-clubs={}
-diamonds={}
-spades={}
+hearts,clubs,diamonds,spades={},{},{},{}
 
-for suit in (hearts,clubs,diamonds,spades):
+for suit in (hearts,clubs,diamonds,spades): #populates each suit with 1 of each type of card
     for card in cards:
         suit[card[0]]=card[1]
 
@@ -25,7 +16,7 @@ shuffled_deck=[]
 #print()
 #print(type(deck))
 for suit in deck:
-    print(deck[suit])
+    print(suit+str(deck[suit]))
 
 #initialise players
 #maybe should use classes instead?
