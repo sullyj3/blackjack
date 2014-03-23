@@ -1,6 +1,6 @@
-how to implement game flow?
+-todo: can't have more than 13 players
 
-psuedocode:
+game flow psuedocode:
 
 round:
 (
