@@ -1,6 +1,6 @@
 from random import randrange
 
-#class definitions
+#class definitions <---------------------------
 class card(object):
     def __init__(self,name,face_value,suit):
         self.name=name
@@ -11,8 +11,9 @@ class player(object):
     def __init__(self,name,current_hand):
         self.name=name
         self.current_hand=current_hand
+#--------------------------------------------->
 
-#Function declarations
+#Function declarations <-----------------------
 #debugging
 debugging=True #later make this only true when an argument in passed to the script
 def debug_print(x):
@@ -70,6 +71,7 @@ def initial_deal(players): #takes list of player objects, updates current_hand a
 #major game control structures
 def round(players,deck): #will be main function
     initial_deal(players)
+#--------------------------------------------->
 
 #important variable assignments
 deck_dict=init_deck()
