@@ -23,10 +23,13 @@ def init_deck():
     cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
     cardvals=[(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]
     suits=['hearts','clubs','diamonds','spades']
-    deck=[]
+    #maybe make deck a dict?
+    deck={}
+    #deck=[]
     for suit in suits:
         for i in range(13):
-            deck.append(card(cardnames[i],cardvals[i],suit))
+            #deck.append(card(cardnames[i],cardvals[i],suit))
+            deck[cardnames[i]+"_"+suit]=card(cardnames[i],cardvals[i],suit)
     return deck
 
 def get_players(): #maybe should use classes instead?
@@ -51,5 +54,5 @@ def shuffle_deck(deck):
 def initial_deal():
     pass
 
-main_deck_state=shuffle_deck(init_deck())
+main_deck_state=init_deck()
 print(main_deck_state)
