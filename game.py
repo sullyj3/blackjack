@@ -11,6 +11,10 @@ class player(object):
     def __init__(self,name,current_hand):
         self.name=name
         self.current_hand=current_hand
+        self.standing=False
+        self.busted=False
+        self.wins=0
+        self.draws=0
 #--------------------------------------------->
 
 #Function declarations <-----------------------
@@ -71,9 +75,26 @@ def initial_deal(players): #takes list of player objects, updates current_hand a
     for player in players:
         debug_print((player+" - hand:",get_hand(players[player])))
 
+def standorhit(player):
+    decision=''
+    while not decision in ('h','s'):
+        decision=input("Will "+player.name+" (s)tand or take a (h)it?\n>").lower()
+        if not decision in ('h','s'):
+            print("please enter either 's' or 'h'")
+    if decision=='h':
+        pass
+    elif decision=='s':
+        pass
+
 #major game control structures
 def round(players,deck): #will be main function
     initial_deal(players)
+    players_busted=0
+    players_standing=0
+    players_inthegame=len(players)-players_busted-players_standing
+    #while players_inthegame>0:
+        
+
 #--------------------------------------------->
 
 #important variable assignments
