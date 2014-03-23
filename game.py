@@ -13,6 +13,13 @@ class player(object):
         self.current_hand=current_hand
 
 #Function declarations
+#debugging
+def get_hand(player): #returns
+    hand=[]
+    for card in player.current_hand:
+        hand.append((card.name,card.suit))
+    return hand
+
 #initialisation:
 def init_deck(): #returns a dictionary of card objects with key "cardname_suit"
     cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
