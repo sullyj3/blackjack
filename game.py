@@ -15,6 +15,7 @@ class player(object):
         self.busted=False
         self.wins=0
         self.draws=0
+        self.hitme=False
 #--------------------------------------------->
 
 #Function declarations <-----------------------
@@ -65,8 +66,7 @@ def shuffle_deck(deck): # takes and returns a list of cards
         del temp_deck[random_index]
 
     return shuffled_deck
-def deal_card(deck,player): #make sure deck is shuffled before calling this
-    #deck should be a list, player should be a player object
+def deal_card(deck,player): #deck should be a list, player should be a player object
     (player.current_hand).append(deck.pop(0)) #pop() removes card from deck
 def initial_deal(players): #takes list of player objects, updates current_hand attribute
     for player in players:
@@ -75,26 +75,36 @@ def initial_deal(players): #takes list of player objects, updates current_hand a
     for player in players:
         debug_print((player+" - hand:",get_hand(players[player])))
 
-def standorhit(player):
+def standorhit(player): #takes a player object, updates attributes. returns decision
     decision=''
     while not decision in ('h','s'):
         decision=input("Will "+player.name+" (s)tand or take a (h)it?\n>").lower()
         if not decision in ('h','s'):
             print("please enter either 's' or 'h'")
     if decision=='h':
-        pass
+        player.hitme=True
     elif decision=='s':
-        pass
+        player.standing=True
+    return decision
 
 #major game control structures
-def round(players,deck): #will be main function
-    initial_deal(players)
+def round(players,deck): #will be main function. takes list of players, deck as list
+    #todo: reset object variables from last round
     players_busted=0
     players_standing=0
     players_inthegame=len(players)-players_busted-players_standing
-    #while players_inthegame>0:
-        
 
+    initial_deal(players)
+    #can't be over 21, but test for blackjacks here.
+    
+    #while players_inthegame>0:
+        for player in players:
+            if standorhit(player)='h':
+                deal_card(player,main_deck)
+                #should we test for busted here, or in a separate loop after the decisions have been made?
+            else:
+                players_standing+=1
+                player.standing=True
 #--------------------------------------------->
 
 #important variable assignments
