@@ -14,6 +14,10 @@ class player(object):
 
 #Function declarations
 #debugging
+debugging=True #later make this only true when an argument in passed to the script
+def debug_print(x):
+    if debugging:
+        print(x)
 def get_hand(player): #returns
     hand=[]
     for card in player.current_hand:
