@@ -51,10 +51,10 @@ def deal_card(deck,player): #make sure deck is shuffled before calling this
     #deck should be a list, player should be a player object
     (player.current_hand).append(deck.pop(0)) #pop() removes card from deck
 
-def round(players,deck):
+def round(players,deck): #will be main function
     initial_deal(players)
 
-def initial_deal(players):
+def initial_deal(players): #takes list of player objects, updates current_hand attribute
     for player in players:
         deal_card(main_deck, player)        
         deal_card(main_deck, player)        
