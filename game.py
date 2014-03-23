@@ -18,6 +18,7 @@ class player(object):
 debugging=True #later make this only true when an argument in passed to the script
 def debug_print(x):
     if debugging:
+        print()
         print(x)
 def get_hand(player): #returns
     hand=[]
@@ -65,8 +66,10 @@ def deal_card(deck,player): #make sure deck is shuffled before calling this
     (player.current_hand).append(deck.pop(0)) #pop() removes card from deck
 def initial_deal(players): #takes list of player objects, updates current_hand attribute
     for player in players:
-        deal_card(main_deck, player)        
-        deal_card(main_deck, player)        
+        deal_card(main_deck, players[player])        
+        deal_card(main_deck, players[player])        
+    for player in players:
+        debug_print((player+" - hand:",get_hand(players[player])))
 
 #major game control structures
 def round(players,deck): #will be main function
@@ -75,6 +78,15 @@ def round(players,deck): #will be main function
 
 #important variable assignments
 deck_dict=init_deck()
+debug_print('deck_dict initialised to:')
+debug_print(deck_dict)
+
 deck_list=[x for x in deck_dict.values()]
+debug_print('deck_list initialised to:')
+debug_print(deck_list)
+
 main_deck=shuffle_deck(deck_list)
+debug_print("main_deck list created and shuffled")
 players=generate_players(get_players())
+debug_print("players =")
+debug_print(players)
