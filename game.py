@@ -123,7 +123,7 @@ def round():
     print("beginning new round")
 
     #initialise player objects
-    players=generate_players(player_names)
+    players=generate_players(PLAYER_NAMES)
     debug_print("players initialised")
     debug_print(players,2)
 
@@ -132,7 +132,7 @@ def round():
     num_players_inthegame=len(players)-num_players_busted-num_players_standing
 
     #initialise deck
-    round_deck=shuffle_deck(deck_list)
+    round_deck=shuffle_deck(DECK_LIST)
     debug_print("round_deck list created and shuffled")
 
     initial_deal(players,round_deck)
@@ -149,15 +149,15 @@ def round():
 #--------------------------------------------->
 
 #important variable assignments
-deck_dict=init_deck()
-debug_print('deck_dict initialised')
-debug_print(deck_dict,2)
+DECK_DICT=init_deck()
+debug_print('DECK_DICT initialised')
+debug_print(DECK_DICT,2)
 
-deck_list=[card_obj for card_obj in deck_dict.values()]
-debug_print('deck_list initialised')
-debug_print(deck_list,2)
+DECK_LIST=[card_obj for card_obj in DECK_DICT.values()]
+debug_print('DECK_LIST initialised')
+debug_print(DECK_LIST,2)
 
-player_names=get_players()
+PLAYER_NAMES=get_players()
 
 #begin game
 round()
