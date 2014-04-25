@@ -158,3 +158,6 @@ debug_print('deck_list initialised')
 debug_print(deck_list,2)
 
 player_names=get_players()
+
+#begin game
+round()
