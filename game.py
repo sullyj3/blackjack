@@ -1,4 +1,34 @@
+#todo: implement help and version (see shortopts)
+
 from random import randrange
+import sys
+from getopt import getopt
+#debugging
+#debugging=True #later make this only true when an argument in passed to the script
+
+#help for -h flag
+helpstring='no help written yet'
+versionstring='no versioning implemented yet'
+
+#---------option handling
+args = sys.argv[1:]
+shortopts = 'hv'
+longopts = ['verbosity=']
+
+verbosity = 0
+
+opts=getopt(args,shortopts,longopts)
+#loop through args and do things
+for option,value in opts[0]:
+    if option=='--verbosity':
+        verbosity=int(value)
+        print("verbosity level is", verbosity)
+    elif option=='-h':
+        print(helpstring)
+        sys.exit()
+    elif option=='-v':
+        print(versionstring)
+        sys.exit()
 
 #class definitions <---------------------------
 class card(object):
@@ -15,17 +45,16 @@ class player(object):
         self.busted=False
         self.wins=0
         self.draws=0
-        self.hitme=False
 #--------------------------------------------->
 
 #Function declarations <-----------------------
-#debugging
-debugging=True #later make this only true when an argument in passed to the script
-def debug_print(x):
-    if debugging:
+
+def debug_print(x,min_verbosity=1):
+    min_verbosity=int(min_verbosity)
+    if verbosity>=min_verbosity:
         print()
         print(x)
-def get_hand(player): #returns
+def get_hand_human_readable(player): #returns
     hand=[]
     for card in player.current_hand:
         hand.append((card.name,card.suit))
@@ -49,7 +78,7 @@ def get_players(): #returns list of player names
         add_player=input("Input player "+str(i+1)+" name: ")
         players.append(add_player)
     return players
-def generate_players(name_list): #takes a list of names as strings, returns a dict of player objects
+def generate_players(name_list): #takes a list of names as strings, returns a dict of player objects with player name as key
     players={}
     for name in name_list:
         players[name]=player(name,[])
@@ -68,56 +97,64 @@ def shuffle_deck(deck): # takes and returns a list of cards
     return shuffled_deck
 def deal_card(deck,player): #deck should be a list, player should be a player object
     (player.current_hand).append(deck.pop(0)) #pop() removes card from deck
-def initial_deal(players): #takes list of player objects, updates current_hand attribute
+def initial_deal(players,round_deck): #takes list of player objects, updates current_hand attribute
     for player in players:
-        deal_card(main_deck, players[player])        
-        deal_card(main_deck, players[player])        
+        deal_card(round_deck, players[player])        
+        deal_card(round_deck, players[player])        
     for player in players:
-        debug_print((player+" - hand:",get_hand(players[player])))
+        debug_print((player.name+" - hand:",get_hand_human_readable(players[player])),2) 
 
-def standorhit(player): #takes a player object, updates attributes. returns decision
+def standorhit(player): #takes a player object, updates player.standing attribute. returns decision
     decision=''
+    print("Will "+player.name+" (s)tand or take a (h)it?\n>")
+    #keep asking till valid input
     while not decision in ('h','s'):
-        decision=input("Will "+player.name+" (s)tand or take a (h)it?\n>").lower()
+        decision=input('> ').lower()
         if not decision in ('h','s'):
             print("please enter either 's' or 'h'")
     if decision=='h':
-        player.hitme=True
+        player.standing=False
     elif decision=='s':
         player.standing=True
     return decision
 
 #major game control structures
-def round(players,deck): #will be main function. takes list of players, deck as list
-    #todo: reset object variables from last round
-    players_busted=0
-    players_standing=0
-    players_inthegame=len(players)-players_busted-players_standing
+def round():
+    print("beginning new round")
 
-    initial_deal(players)
-    #can't be over 21, but test for blackjacks here.
+    #initialise player objects
+    players=generate_players(player_names)
+    debug_print("players initialised")
+    debug_print(players,2)
+
+    num_players_busted=0
+    num_players_standing=0
+    num_players_inthegame=len(players)-num_players_busted-num_players_standing
+
+    #initialise deck
+    round_deck=shuffle_deck(deck_list)
+    debug_print("round_deck list created and shuffled")
+
+    initial_deal(players,round_deck)
+    #a player's hand can't be over 21, but test for blackjacks here.
     
     #while players_inthegame>0:
-        for player in players:
-            if standorhit(player)='h':
-                deal_card(player,main_deck)
-                #should we test for busted here, or in a separate loop after the decisions have been made?
-            else:
-                players_standing+=1
-                player.standing=True
+    for player in players:
+        if standorhit(player)=='h':
+            deal_card(player,round_deck)
+            #should we test for busted here, or in a separate loop after the decisions have been made?
+        else:
+            num_players_standing+=1
+            player.standing=True
 #--------------------------------------------->
 
 #important variable assignments
 deck_dict=init_deck()
-debug_print('deck_dict initialised to:')
-debug_print(deck_dict)
+debug_print('deck_dict initialised')
+debug_print(deck_dict,2)
 
-deck_list=[x for x in deck_dict.values()]
-debug_print('deck_list initialised to:')
-debug_print(deck_list)
+deck_list=[card_obj for card_obj in deck_dict.values()]
+debug_print('deck_list initialised')
+debug_print(deck_list,2)
 
-main_deck=shuffle_deck(deck_list)
-debug_print("main_deck list created and shuffled")
-players=generate_players(get_players())
-debug_print("players =")
-debug_print(players)
+player_names=get_players()
