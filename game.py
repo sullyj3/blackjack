@@ -3,6 +3,8 @@
     #problem: initial_deal takes a LIST of player obkect whereas I'm currently passing it a DICT
     #this is beacuse i've made generate_players return a dict
 
+    #handle unexpected command line args gracefully with exception handling
+
 from random import randrange
 import sys
 from getopt import getopt
