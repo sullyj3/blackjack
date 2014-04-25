@@ -1,4 +1,7 @@
-#todo: implement help and version (see shortopts)
+#todo:
+    #implement help and version (see shortopts)
+    #problem: initial_deal takes a LIST of player obkect whereas I'm currently passing it a DICT
+    #this is beacuse i've made generate_players return a dict
 
 from random import randrange
 import sys
@@ -122,7 +125,7 @@ def standorhit(player): #takes a player object, updates player.standing attribut
 def round():
     print("beginning new round")
 
-    #initialise player objects
+    #initialise player objects AS DICT
     players=generate_players(PLAYER_NAMES)
     debug_print("players initialised")
     debug_print(players,2)
