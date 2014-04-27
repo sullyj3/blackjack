@@ -48,9 +48,19 @@ class deck(object):
                 deck[cardnames[i]+"_"+suit]=card(cardnames[i],cardvals[i],suit)
 
         self.deck_as_dict=deck #dictionary of card objects with key "cardname_suit" 
-        self.deck_as_list=[ card_obj for card_obj in deck_as_dict.values() ] 
+        #list is ordered. important for dealing
+        self.deck_as_list=[ card_obj for card_obj in self.deck_as_dict.values() ] 
         
         debug_print('new deck initialised')
+    def shuffle(self):
+        temp_list=self.deck_as_list
+        shuffled_list=[]
+
+        while len(temp_list)>0:
+            random_index=randrange(len(temp_list))
+            shuffled_list.append(temp_list[random_index])
+            del temp_list[random_index]
+        self.deck_as_list=shuffled_list
 
 class card(object):
     def __init__(self,name,face_value,suit):
@@ -66,13 +76,13 @@ class player(object):
         self.busted=False
         self.wins=0
         self.draws=0
-        def get_current_hand_human_readable(self):
-            hand=[]
-            for card in self.current_hand:
-                #hand.append((card.name,card.suit))
-                hand.append(card.name + ' of ' + card.suit)
-            hand=', '.join(hand)
-            return hand
+    def get_current_hand_human_readable(self):
+        hand=[]
+        for card in self.current_hand:
+            #hand.append((card.name,card.suit))
+            hand.append(card.name + ' of ' + card.suit)
+        hand=', '.join(hand)
+        return hand
 #--------------------------------------------->
 
 #Function declarations <-----------------------
@@ -94,6 +104,7 @@ def get_players(): #returns list of player names
     players=[]
     num_players=int(input("Input number of players: "))
     for i in range(num_players):
+        #add graceful error handling for invalid input
         add_player=input("Input player "+str(i+1)+" name: ")
         players.append(add_player)
     return players
@@ -104,25 +115,15 @@ def generate_players(name_list): #takes a list of names as strings, returns a di
     return players
 
 #minor game tasks
-def shuffle_deck(deck): # takes and returns a list of cards
-    temp_deck=deck
-    shuffled_deck=[]
-
-    while len(temp_deck)>0:
-        random_index=randrange(len(temp_deck))
-        shuffled_deck.append(temp_deck[random_index])
-        del temp_deck[random_index]
-
-    return shuffled_deck
-def deal_card(deck,player): #deck should be a list, player should be a player object
-    (player.current_hand).append(deck.pop(0)) #pop() removes card from deck
+def deal_card(deck,player): 
+    (player.current_hand).append(deck.deck_as_list.pop(0)) 
+    #using pop() because it removes card from deck
 def initial_deal(players,round_deck): #takes dict of player objects, updates current_hand attribute
     for player in players.values():
         deal_card(round_deck, player)        
         deal_card(round_deck, player)        
     for player in players.values():
-        debug_print(
-                ( player.name+" - hand:" , player.get_current_hand_human_readable() ), 2 ) 
+        debug_print( ( player.name+" - hand:" , player.get_current_hand_human_readable() ), 2 ) 
 
 def standorhit(player): #takes a player object, updates player.standing attribute. returns decision
     decision=''
@@ -139,7 +140,7 @@ def standorhit(player): #takes a player object, updates player.standing attribut
     return decision
 
 #major game control structures
-def round():
+def round(PLAYER_NAMES):
     print("\nbeginning new round")
 
     #initialise player objects AS DICT
@@ -152,7 +153,8 @@ def round():
     num_players_inthegame=len(players)-num_players_busted-num_players_standing
 
     #initialise deck
-    round_deck=shuffle_deck(DECK_LIST)
+    round_deck=deck()
+    round_deck.shuffle()
     debug_print("round_deck list created and shuffled")
 
     initial_deal(players,round_deck)
@@ -170,5 +172,5 @@ def round():
             player.standing=True
 def game():
     PLAYER_NAMES=get_players()
-    round() #or something
+    round(PLAYER_NAMES) #or something
 #--------------------------------------------->
