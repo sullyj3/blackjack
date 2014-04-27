@@ -1,5 +1,4 @@
 #todo:
-    #URGENT: restructure all functions relating to deck to take and return deck instances
     #implement help and version (see shortopts)
 
     #handle unexpected command line args gracefully with exception handling
@@ -48,7 +47,7 @@ class deck(object):
                 deck[cardnames[i]+"_"+suit]=card(cardnames[i],cardvals[i],suit)
 
         self.deck_as_dict=deck #dictionary of card objects with key "cardname_suit" 
-        #list is ordered. important for dealing
+        #list is ordered. important for dealing cards
         self.deck_as_list=[ card_obj for card_obj in self.deck_as_dict.values() ] 
         
         debug_print('new deck initialised')
