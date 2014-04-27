@@ -1,4 +1,6 @@
 -todo: can't have more than 13 players
+check out random.shuffle
+ensure when looping through dictionary of player it happens in a predictable order so that turn order is consisntent
 
 game flow pseudocode:
 

@@ -161,6 +161,8 @@ def round(PLAYER_NAMES):
     #this is where players will need to be able to view their cards somehow
 
     #while players_inthegame>0:
+    #need to ensure that this looping happens in a predictable order, maybe player order
+    #add Player id number member variable, created in generate_players?
     for player in players.values():
         if standorhit(player)=='h':
             deal_card(player,round_deck)
