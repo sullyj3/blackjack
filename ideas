@@ -37,6 +37,3 @@ else:
 			draw
 )
 
-have a present deck state list.
-each player has an associated list which represents their hand
-maybe cards shouldve been a class as well

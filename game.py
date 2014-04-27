@@ -59,6 +59,7 @@ def debug_print(x,min_verbosity=1):
     if verbosity>=min_verbosity:
         print()
         print(x)
+#this is stupid. this should really be a method in player
 def get_hand_human_readable(player): #returns
     hand=[]
     for card in player.current_hand:
@@ -102,16 +103,17 @@ def shuffle_deck(deck): # takes and returns a list of cards
     return shuffled_deck
 def deal_card(deck,player): #deck should be a list, player should be a player object
     (player.current_hand).append(deck.pop(0)) #pop() removes card from deck
-def initial_deal(players,round_deck): #takes list of player objects, updates current_hand attribute
-    for player in players:
-        deal_card(round_deck, players[player])        
-        deal_card(round_deck, players[player])        
-    for player in players:
-        debug_print((player.name+" - hand:",get_hand_human_readable(players[player])),2) 
+def initial_deal(players,round_deck): #takes dict of player objects, updates current_hand attribute
+    for player in players.values():
+        deal_card(round_deck, player)        
+        deal_card(round_deck, player)        
+    for player in players.values():
+        debug_print(
+                ( player.name+" - hand:" , get_hand_human_readable(player) ), 2 ) 
 
 def standorhit(player): #takes a player object, updates player.standing attribute. returns decision
     decision=''
-    print("Will "+player.name+" (s)tand or take a (h)it?\n>")
+    print("Will "+player.name+" (s)tand or take a (h)it?")
     #keep asking till valid input
     while not decision in ('h','s'):
         decision=input('> ').lower()
@@ -125,7 +127,7 @@ def standorhit(player): #takes a player object, updates player.standing attribut
 
 #major game control structures
 def round():
-    print("beginning new round")
+    print("\nbeginning new round")
 
     #initialise player objects AS DICT
     players=generate_players(PLAYER_NAMES)
@@ -143,8 +145,10 @@ def round():
     initial_deal(players,round_deck)
     #a player's hand can't be over 21, but test for blackjacks here.
     
+    #this is where players will need to be able to view their cards somehow
+
     #while players_inthegame>0:
-    for player in players:
+    for player in players.values():
         if standorhit(player)=='h':
             deal_card(player,round_deck)
             #should we test for busted here, or in a separate loop after the decisions have been made?
