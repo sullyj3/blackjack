@@ -1,4 +1,5 @@
 #todo:
+    #URGENT: restructure all functions relating to deck to take and return deck instances
     #implement help and version (see shortopts)
 
     #handle unexpected command line args gracefully with exception handling
