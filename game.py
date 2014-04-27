@@ -96,12 +96,6 @@ def debug_print(x,min_verbosity = 1):
     if verbosity >= min_verbosity:
         print()
         print(x)
-#this is stupid. this should really be a method in Player
-def get_hand_human_readable(player): #returns
-    hand = []
-    for card in player.current_hand:
-        hand.append((card.name,card.suit))
-    return hand
 
 #initialisation:
 def get_players(): #returns list of player names
