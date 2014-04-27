@@ -34,6 +34,23 @@ for option,value in opts[0]:
         sys.exit()
 
 #class definitions <---------------------------
+class deck(object):
+    def __init__(self):
+        cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
+        cardvals=[(1,11)]+[i for i in range(2,11)]+[10,10,10]
+        suits=['hearts','clubs','diamonds','spades']
+
+        deck={}
+
+        for suit in suits:
+            for i in range(13):
+                deck[cardnames[i]+"_"+suit]=card(cardnames[i],cardvals[i],suit)
+
+        self.deck_as_dict=deck #dictionary of card objects with key "cardname_suit" 
+        self.deck_as_list=[ card_obj for card_obj in deck_as_dict.values() ] 
+        
+        debug_print('new deck initialised')
+
 class card(object):
     def __init__(self,name,face_value,suit):
         self.name=name
@@ -72,16 +89,6 @@ def get_hand_human_readable(player): #returns
     return hand
 
 #initialisation:
-def init_deck(): #returns a dictionary of card objects with key "cardname_suit"
-    cardnames=["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
-    cardvals=[(1,11)]+[i for i in range(2,11)]+[10 for i in range(3)]
-    suits=['hearts','clubs','diamonds','spades']
-    deck={}
-    for suit in suits:
-        for i in range(13):
-            #deck.append(card(cardnames[i],cardvals[i],suit))
-            deck[cardnames[i]+"_"+suit]=card(cardnames[i],cardvals[i],suit)
-    return deck
 def get_players(): #returns list of player names
     players=[]
     num_players=int(input("Input number of players: "))
@@ -131,19 +138,6 @@ def standorhit(player): #takes a player object, updates player.standing attribut
     return decision
 
 #major game control structures
-
-def init_game():
-    global DECK_DICT
-    DECK_DICT=init_deck()
-    debug_print('DECK_DICT initialised')
-    debug_print(DECK_DICT,2)
-
-    global DECK_LIST
-    DECK_LIST=[card_obj for card_obj in DECK_DICT.values()]
-    debug_print('DECK_LIST initialised')
-    debug_print(DECK_LIST,2)
-
-    PLAYER_NAMES=get_players()
 def round():
     print("\nbeginning new round")
 
@@ -173,10 +167,7 @@ def round():
         else:
             num_players_standing+=1
             player.standing=True
+def game():
+    PLAYER_NAMES=get_players()
+    round() #or something
 #--------------------------------------------->
-
-#important variable assignments
-
-#begin game
-init_game()
-#round()
