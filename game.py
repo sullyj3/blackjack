@@ -1,7 +1,5 @@
 #todo:
     #implement help and version (see shortopts)
-    #problem: initial_deal takes a LIST of player object whereas I'm currently passing it a DICT
-    #this is beacuse i've made generate_players return a dict
 
     #handle unexpected command line args gracefully with exception handling
 
