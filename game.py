@@ -50,6 +50,13 @@ class player(object):
         self.busted=False
         self.wins=0
         self.draws=0
+        def get_current_hand_human_readable(self):
+            hand=[]
+            for card in self.current_hand:
+                #hand.append((card.name,card.suit))
+                hand.append(card.name + ' of ' + card.suit)
+            hand=', '.join(hand)
+            return hand
 #--------------------------------------------->
 
 #Function declarations <-----------------------
@@ -109,7 +116,7 @@ def initial_deal(players,round_deck): #takes dict of player objects, updates cur
         deal_card(round_deck, player)        
     for player in players.values():
         debug_print(
-                ( player.name+" - hand:" , get_hand_human_readable(player) ), 2 ) 
+                ( player.name+" - hand:" , player.get_current_hand_human_readable() ), 2 ) 
 
 def standorhit(player): #takes a player object, updates player.standing attribute. returns decision
     decision=''
@@ -126,6 +133,19 @@ def standorhit(player): #takes a player object, updates player.standing attribut
     return decision
 
 #major game control structures
+
+def init_game():
+    global DECK_DICT
+    DECK_DICT=init_deck()
+    debug_print('DECK_DICT initialised')
+    debug_print(DECK_DICT,2)
+
+    global DECK_LIST
+    DECK_LIST=[card_obj for card_obj in DECK_DICT.values()]
+    debug_print('DECK_LIST initialised')
+    debug_print(DECK_LIST,2)
+
+    PLAYER_NAMES=get_players()
 def round():
     print("\nbeginning new round")
 
@@ -158,15 +178,7 @@ def round():
 #--------------------------------------------->
 
 #important variable assignments
-DECK_DICT=init_deck()
-debug_print('DECK_DICT initialised')
-debug_print(DECK_DICT,2)
-
-DECK_LIST=[card_obj for card_obj in DECK_DICT.values()]
-debug_print('DECK_LIST initialised')
-debug_print(DECK_LIST,2)
-
-PLAYER_NAMES=get_players()
 
 #begin game
-round()
+init_game()
+#round()
