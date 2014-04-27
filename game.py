@@ -89,7 +89,7 @@ class Player(object):
         return hand
 #}}}
 
-#Function declarations {{{
+#Function definitions {{{
 
 def debug_print(x,min_verbosity = 1):
     min_verbosity = int(min_verbosity)
