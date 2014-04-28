@@ -37,6 +37,8 @@ for option,value in opts[0]:
 class Deck(object):
 
     def __init__(self):
+        #consider using tuples instead?
+        #cardnames = ("ace")+tuple(str(i) for i in range(2,11))+('jack','queen','king')
         cardnames = ["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
         cardvals = [(1,11)]+[i for i in range(2,11)]+[10,10,10]
         suits = ['hearts','clubs','diamonds','spades']
