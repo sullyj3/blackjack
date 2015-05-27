@@ -91,20 +91,15 @@ def round(players):
     random.shuffle(round_deck)
     debug_print("round_deck list created and shuffled")
 
-    deal(players,round_deck)
-    
-    #this is where players will need to be able to view their cards somehow
+    # deal to dealer
 
-    #while players_inthegame>0:
-    #need to ensure that this looping happens in a predictable order, maybe player order
-    #add Player id number member variable, created in generate_players?
-    for player in players.values():
-        if standorhit(player)=='h':
-            deal_card(player,round_deck)
-            #should we test for busted here, or in a separate loop after the decisions have been made?
-        else:
-            num_players_standing += 1
-            player.standing = True
+    # deal to players
+    deal(players,round_deck)
+
+    # check for blackjacks
+    
+    # get player decisions
+
 def game():
     PLAYER_NAMES = get_players()
     round(PLAYER_NAMES) #or something
