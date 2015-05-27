@@ -69,50 +69,29 @@ def debug_print(x, min_verbosity = 1):
         print(x)
 
 #minor game tasks
-def deal_card(deck,player): 
-    (player.current_hand).append(deck.deck_as_list.pop(0)) 
-    #using pop() because it removes Card from deck
-def initial_deal(players,round_deck): #takes dict of Player objects, updates current_hand attribute
-    for player in players.values():
-        deal_card(round_deck, player)        
-        deal_card(round_deck, player)        
-    for player in players.values():
-        debug_print( ( player.name+" - hand:" , player.get_current_hand_human_readable() ), 2 ) 
+def new_deck():
+    return deepcopy(default_deck)
 
-def standorhit(player): #takes a Player object, updates player.standing attribute. returns decision
-    decision = ''
-    print("Will "+player.name+" (s)tand or take a (h)it?")
-    #keep asking till valid input
-    while not decision in ('h','s'):
-        decision = input('> ').lower()
-        if not decision in ('h','s'):
-            print("please enter either 's' or 'h'")
-    if decision=='h':
-        player.standing = False
-    elif decision=='s':
-        player.standing = True
-    return decision
+def deal_card(deck, player): 
+    player.current_hand.append(deck.pop()) 
+    #using pop() because it removes Card from deck
+
+def deal(players, deck):
+    #takes list of Player objects, deals them cards
+    for player in players:
+        deal_card(deck, player)        
+        deal_card(deck, player)        
 
 #major game control structures
-def round(PLAYER_NAMES):
+def round(players):
     print("\nbeginning new round")
 
-    #initialise player objects AS DICT
-    players = generate_players(PLAYER_NAMES)
-    debug_print("players initialised")
-    debug_print(players,2)
-
-    num_players_busted = 0
-    num_players_standing = 0
-    num_players_inthegame = len(players)-num_players_busted-num_players_standing
-
     #initialise deck
-    round_deck = Deck()
-    round_deck.shuffle()
+    round_deck = new_deck()
+    random.shuffle(round_deck)
     debug_print("round_deck list created and shuffled")
 
-    initial_deal(players,round_deck)
-    #a player's hand can't be over 21, but test for blackjacks here.
+    deal(players,round_deck)
     
     #this is where players will need to be able to view their cards somehow
 
