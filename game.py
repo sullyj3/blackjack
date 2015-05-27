@@ -3,9 +3,10 @@
 
     #handle unexpected command line args gracefully with exception handling
 
-from random import randrange
+import random
 import sys
 from getopt import getopt
+from copy import deepcopy
 #debugging
 #debugging = True #later make this only true when an argument in passed to the script
 
@@ -33,44 +34,28 @@ for option,value in opts[0]:
         print(versionstring)
         sys.exit()
 
+#globals
+cardnames = ('ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king')
+suits = ('hearts','diamonds','clubs','spades')
+
 #class definitions {{{
-class Deck(object):
-
-    def __init__(self):
-        #consider using tuples instead?
-        #cardnames = ("ace")+tuple(str(i) for i in range(2,11))+('jack','queen','king')
-        cardnames = ["ace"]+[str(i) for i in range(2,11)]+['jack','queen','king']
-        cardvals = [(1,11)]+[i for i in range(2,11)]+[10,10,10]
-        suits = ['hearts','clubs','diamonds','spades']
-
-        deck = {}
-
-        for suit in suits:
-            for i in range(13):
-                deck[cardnames[i]+"_"+suit] = Card(cardnames[i],cardvals[i],suit)
-
-        self.deck_as_dict = deck #dictionary of Card objects with key "cardname_suit" 
-        #list is ordered. important for dealing cards
-        self.deck_as_list = [ card_obj for card_obj in self.deck_as_dict.values() ] 
-        
-        debug_print('new Deck initialised')
-
-    def shuffle(self):
-        temp_list = self.deck_as_list
-        shuffled_list = []
-
-        while len(temp_list)>0:
-            random_index = randrange(len(temp_list))
-            shuffled_list.append(temp_list[random_index])
-            del temp_list[random_index]
-        self.deck_as_list = shuffled_list
 
 class Card(object):
-
-    def __init__(self,name,face_value,suit):
-        self.name = name
-        self.face_value = face_value
+    def __init__(self, id_no, suit):
+        self.id_no = id_no
         self.suit = suit
+
+default_deck = []
+for suit in suits:
+    for i in range(13):
+        default_deck.append(Card(i, suit))
+
+class Deck(object):
+    def __init__(self):
+        self._deck = deepcopy(default_deck)
+
+    def shuffle(self):
+        random.shuffle(self._deck)
 
 class Player(object):
 
