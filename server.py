@@ -62,7 +62,7 @@ class Player(object):
 
 #Function definitions {{{
 
-def debug_print(x,min_verbosity = 1):
+def debug_print(x, min_verbosity = 1):
     min_verbosity = int(min_verbosity)
     if verbosity >= min_verbosity:
         print()
