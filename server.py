@@ -48,21 +48,16 @@ for suit in suits:
         default_deck.append(Card(i, suit))
 
 class Player(object):
-    def __init__(self,name,current_hand):
+    def __init__(self,name):
         self.name = name
-        self.current_hand = current_hand
+        # idea: maybe hand should be an object
+        # subclass set, add get_hand_value function
+        self.current_hand = []
         self.standing = False
         self.busted = False
         self.wins = 0
         self.draws = 0
 
-    def get_current_hand_human_readable(self):
-        hand = []
-        for card in self.current_hand:
-            #hand.append((card.name,card.suit))
-            hand.append(card.name + ' of ' + card.suit)
-        hand = ', '.join(hand)
-        return hand
 #}}}
 
 #Function definitions {{{
