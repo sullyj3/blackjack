@@ -1,7 +1,6 @@
 #todo:
-    #implement help and version (see shortopts)
-
-    #handle unexpected command line args gracefully with exception handling
+#    - implement help and version (see shortopts)
+#    - handle unexpected command line args gracefully with exception handling
 
 import random
 import sys
@@ -14,13 +13,11 @@ from copy import deepcopy
 helpstring = 'no help written yet'
 versionstring = 'no versioning implemented yet'
 
-#---------option handling
+#OPTION HANDLING
 args = sys.argv[1:]
 shortopts = 'hv'
 longopts = ['verbosity=']
-
 verbosity = 0
-
 opts = getopt(args,shortopts,longopts)
 #loop through args and do things
 for option,value in opts[0]:
