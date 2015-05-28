@@ -196,7 +196,13 @@ def round(dealer, players):
                     standing.append(player)
             else:
                 raise ValueError
-        hand_val
+
+        # TODO: up to here. dealer should make decision here.
+        ''' how should I handle the dealer?
+        - Should they be a subclass of Player?
+        - Do we want players to be able to be dealers?
+        - Should the server be the dealer?
+        '''
 
 
     return result
