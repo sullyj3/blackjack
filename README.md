@@ -6,4 +6,3 @@ todo:
 
 * implement multiple decks
 * implement betting
-* implement playing against the 'house'
