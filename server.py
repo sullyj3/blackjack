@@ -177,6 +177,7 @@ def round(dealer, players):
             in_round.remove(player)
 
     while in_round:
+        #TODO: how do i wait for input in parallel?
         for player in in_round:
             #get input from player: hit or stand?
             decision = wait_for_decision()
