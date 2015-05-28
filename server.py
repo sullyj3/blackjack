@@ -32,27 +32,83 @@ for option,value in opts[0]:
         sys.exit()
 
 #globals
-cardnames = ('ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king')
+cardnames = ('ace','2','3','4','5','6','7','8','9','10','jack','queen','king')
+#ace face value is dealt with separately
+cardvalues = ('ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10)
 suits = ('hearts','diamonds','clubs','spades')
 
 #class definitions {{{
 
 class Card(object):
     def __init__(self, id_no, suit):
+        if not id_no in range(13):
+            raise ValueError
+
         self.id_no = id_no
         self.suit = suit
+
+    def name(self):
+        return cardnames[self.id_no]
+    
+    def value(self):
+        return cardvalues[self.id_no]
+
+    def __repr__(self):
+        return "{0} of {1}".format(self.name(), self.suit)
 
 default_deck = []
 for suit in suits:
     for i in range(13):
         default_deck.append(Card(i, suit))
 
+class Hand(set):
+    def add(self, elem):
+        if type(elem) is Card:
+            super().add(elem)
+        else:
+            raise TypeError('Hands contain cards, not {}'.format(type(elem)))
+
+    def value(self):
+        #first check for blackjack
+        if len(self) == 2:
+            vals = {card.value() for card in self}
+            if vals == {'ace', 10}:
+                return 'blackjack'
+
+        #separate cards based on whether they're aces
+        aces = set()
+        non_aces = set()
+        for card in self:
+            if card.name() == 'ace':
+                aces.add(card)
+            else:
+                non_aces.add(card)
+
+        # sum card values
+        total = 0
+        # compute sum of non ace cards
+        for card in non_aces:
+            total += card.value()
+            if total>21:
+                return 'bust'
+        # now add aces
+        for card in aces:
+            total += 1
+            if total>21:
+                return 'bust'
+        # convert aces from 1 to 11 if safe to do so
+        for card in aces:
+            if total+10 <= 21:
+                total += 10
+            else:
+                break
+
+        return total
+
 class Player(object):
     def __init__(self,name):
         self.name = name
-        # idea: maybe hand should be an object
-        # subclass set, add get_hand_value function
-        self.current_hand = []
+        self.hand = Hand()
         self.standing = False
         self.busted = False
         self.wins = 0
@@ -73,32 +129,76 @@ def new_deck():
     return deepcopy(default_deck)
 
 def deal_card(deck, player): 
-    player.current_hand.append(deck.pop()) 
+    player.hand.add(deck.pop()) 
     #using pop() because it removes Card from deck
 
 def deal(players, deck):
     #takes list of Player objects, deals them cards
     for player in players:
-        deal_card(deck, player)        
-        deal_card(deck, player)        
+        for i in range(2):
+            deal_card(deck, player)        
+
+def wait_for_decision():
+    pass
 
 #major game control structures
-def round(players):
+def round(dealer, players):
     print("\nbeginning new round")
+
+    result = { player.name:None for player in players }
 
     #initialise deck
     round_deck = new_deck()
     random.shuffle(round_deck)
     debug_print("round_deck list created and shuffled")
+    # deal to dealer and players
+    deal((dealer, ) + players, round_deck)
 
-    # deal to dealer
+    # case 1: dealer has blackjack
+    if dealer.hand.value() == 'blackjack':
+        for player in players:
+            hand_val = player.hand.value()
+            if hand_val == 'blackjack':
+                result[player.name] = 'push'
+            else:
+                result[player.name] = 'loss'
+                pass
+        return result
 
-    # deal to players
-    deal(players,round_deck)
+    # case 2: dealer doesn't have blackjack
+    # keep track of who's still playing
+    in_round = copy(players)
+    standing = []
+    # check players for blackjack
+    for player in players:
+        hand_val = player.hand.value()
+        if hand_val == 'blackjack':
+            result[player.name] = 'win'
+            in_round.remove(player)
 
-    # check for blackjacks
-    
-    # get player decisions
+    while in_round:
+        for player in in_round:
+            #get input from player: hit or stand?
+            decision = wait_for_decision()
+
+            if decision == 'stand':
+                in_round.remove(player)
+                standing.append(player)
+            elif decision == 'hit':
+                deal_card(round_deck, player)
+                hand_val = player.hand.value()
+                if hand_val == 'bust':
+                    result[player.name] = 'loss'
+                    in_round.remove(player)
+                elif hand_val == 21:
+                    in_round.remove(player)
+                    standing.append(player)
+            else:
+                raise ValueError
+        hand_val
+
+
+    return result
 
 def game():
     PLAYER_NAMES = get_players()
